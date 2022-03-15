@@ -1,0 +1,20 @@
+.list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.card-list {
+  display: flex;
+}
+ul {
+  list-style: none;
+}
+.card-items {
+  text-align: center;
+  padding: 20px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  margin-right: 40px;
+}
+.card-photo {
+  width: 100px;
+}

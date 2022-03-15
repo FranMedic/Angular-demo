@@ -1,0 +1,17 @@
+<div class="list-container">
+  <div><h2>The Real Puppets!</h2></div>
+  <div class="card-list">
+    <ul *ngFor="let cliente of clientes">
+      <li class="card-items">
+        <h3 class="card-title">{{ cliente.name }} {{ cliente.surname }}</h3>
+        <img
+          class="card-photo"
+          src="{{ cliente.photo }}"
+          alt="{{ cliente.name }}"
+        />
+        <p class="card-id">Id: {{ cliente.id }}</p>
+        <p class="card-date">Birthday: {{ cliente.createAt }}</p>
+      </li>
+    </ul>
+  </div>
+</div>
