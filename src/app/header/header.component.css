@@ -1,0 +1,49 @@
+.navbar__menu--items {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+.navbar__logo {
+  background-image: url("../../assets/kermit2.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 100px;
+  height: 100px;
+  padding: 0;
+  margin-right: 30px;
+}
+.navbar__title {
+  margin-right: 100px;
+}
+.navbar__link {
+  margin-right: 150px;
+  padding: 30px;
+}
+.navbar__link:hover {
+  color: #ffffff;
+  background-color: #00a4bd;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  width: 100%;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+.navbar__dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown-content a {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  color: #000000;
+  padding: 5px;
+  text-decoration: none;
+}
+.dropdown-content a:hover {
+  color: #ffffff;
+  background-color: #00a4bd;
+}
