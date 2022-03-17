@@ -5,16 +5,20 @@
       <li class="navbar__title">
         <h1>{{ title }}</h1>
       </li>
-      <li><a class="navbar__link">No zoy un Link</a></li>
-      <li><a class="navbar__link">Zi zoy un Link </a></li>
+      <li routerLinkActive="active">
+        <a routerLink="/directivas" class="navbar__link">No zoy un Link</a>
+      </li>
+      <li routerLinkActive="active">
+        <a routerLink="/clientes" class="navbar__link">Zi zoy un Link </a>
+      </li>
       <li>
         <div class="navbar__dropdown">
           Dropdaaaaauun
 
           <div class="dropdown-content">
-            <a href="#">Tengo</a>
-            <a href="#">Hambre</a>
-            <a href="#">Uwu</a>
+            <a routerLink="#">Tengo</a>
+            <a routerLink="#">Hambre</a>
+            <a routerLink="#">Uwu</a>
           </div>
         </div>
       </li>

@@ -7,7 +7,14 @@ import { HeaderComponent } from "./header/header.component";
 import { ClientesComponent } from "./clientes/clientes.component";
 import { ClienteService } from "./clientes/cliente.service";
 import { HttpClientModule } from "@angular/common/http";
+import { RouterModule, Routes } from "@angular/router";
+import { DirectivaComponent } from "./directiva/directiva.component";
 
+const routes: Routes = [
+  { path: "", redirectTo: "/clientes", pathMatch: "full" }, //home
+  { path: "clientes", component: ClientesComponent }, //path que queremos
+  { path: "directivas", component: DirectivaComponent },
+];
 @NgModule({
   declarations: [
     AppComponent,
@@ -15,8 +22,8 @@ import { HttpClientModule } from "@angular/common/http";
     FooterComponent,
     ClientesComponent,
   ],
-  imports: [BrowserModule],
-  providers: [ClienteService],
+  imports: [BrowserModule, RouterModule.forRoot(routes)],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
