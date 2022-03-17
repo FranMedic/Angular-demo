@@ -3,7 +3,7 @@
   <button class="toogle" (click)="setToogle()">
     {{ toogle ? "End the Show" : "Let The Show Begin" }}
   </button>
-  <ul class="list-group" *ngIf="toogle === true">
+  <ul class="list-group" *ngIf="toogle == true">
     <li class="list-group--item" *ngFor="let puppet of listaPuppets">
       {{ puppet }}
     </li>
