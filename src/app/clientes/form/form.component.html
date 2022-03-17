@@ -1,0 +1,40 @@
+<div class="form-container">
+  <div class="form-header">
+    <h1>{{ formtitle }}</h1>
+  </div>
+  <div class="form-body">
+    <form autocomplete="off" (ngSubmit)="create()">
+      <div class="form-name">
+        <label for="" class="label-name"> Name: </label>
+        <input
+          type="text"
+          [(ngModel)]="cliente.name"
+          name="name"
+          class="name-input"
+        />
+      </div>
+      <div class="form-surname">
+        <label for="" class="label-surname"> Surname: </label>
+        <input
+          type="text"
+          [(ngModel)]="cliente.surname"
+          name="surname"
+          class="surname-input"
+        />
+      </div>
+      <div class="form-photo">
+        <label for="" class="label-photo"> Photo url: </label>
+        <input
+          type="text"
+          [(ngModel)]="cliente.photo"
+          name="photo"
+          class="photo-input"
+        />
+      </div>
+
+      <div class="form-submit">
+        <button class="submit-button">Create</button>
+      </div>
+    </form>
+  </div>
+</div>

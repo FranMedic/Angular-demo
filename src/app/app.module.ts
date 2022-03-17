@@ -8,12 +8,14 @@ import { ClientesComponent } from "./clientes/clientes.component";
 import { ClienteService } from "./clientes/cliente.service";
 import { HttpClientModule } from "@angular/common/http";
 import { RouterModule, Routes } from "@angular/router";
-import { DirectivaComponent } from "./directiva/directiva.component";
+
+import { FormComponent } from "./clientes/form/form.component";
+import { FormsModule } from "@angular/forms";
 
 const routes: Routes = [
   { path: "", redirectTo: "/clientes", pathMatch: "full" }, //home
   { path: "clientes", component: ClientesComponent }, //path que queremos
-  { path: "directivas", component: DirectivaComponent },
+  { path: "clientes/crear", component: FormComponent },
 ];
 @NgModule({
   declarations: [
@@ -21,9 +23,15 @@ const routes: Routes = [
     HeaderComponent,
     FooterComponent,
     ClientesComponent,
+    FormComponent,
   ],
-  imports: [BrowserModule, RouterModule.forRoot(routes)],
-  providers: [],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    FormsModule,
+    RouterModule.forRoot(routes),
+  ],
+  providers: [ClienteService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
