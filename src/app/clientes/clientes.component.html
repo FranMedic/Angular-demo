@@ -1,6 +1,12 @@
 <div class="list-container">
   <div><h2>The Real Puppets!</h2></div>
-  <div class="card-list">
+  <div *ngIf="clientes.length === 0">
+    <p>
+      No hay ninguna Puppet,
+      <a routerLink="/clientes/crear"> ¿Quieres crear una? </a>
+    </p>
+  </div>
+  <div class="card-list" *ngIf="clientes?.length > 0">
     <ul *ngFor="let cliente of clientes">
       <li class="card-items">
         <h3 class="card-title">{{ cliente.name }} {{ cliente.surname }}</h3>
@@ -11,6 +17,13 @@
         />
         <p class="card-id">Id: {{ cliente.id }}</p>
         <p class="card-date">Birthday: {{ cliente.createAt }}</p>
+        <button
+          class="edit-button"
+          routerLink="/clientes/crear/{{ this.cliente.id }}"
+        >
+          Editar
+        </button>
+        <button class="delete-button" (click)="delete(cliente)">Borrar</button>
       </li>
     </ul>
   </div>

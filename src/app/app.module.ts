@@ -16,6 +16,7 @@ const routes: Routes = [
   { path: "", redirectTo: "/clientes", pathMatch: "full" }, //home
   { path: "clientes", component: ClientesComponent }, //path que queremos
   { path: "clientes/crear", component: FormComponent },
+  { path: "clientes/crear/:id", component: FormComponent },
 ];
 @NgModule({
   declarations: [

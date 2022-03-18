@@ -3,7 +3,7 @@
     <h1>{{ formtitle }}</h1>
   </div>
   <div class="form-body">
-    <form autocomplete="off" (ngSubmit)="create()">
+    <form autocomplete="off">
       <div class="form-name">
         <label for="" class="label-name"> Name: </label>
         <input
@@ -33,7 +33,16 @@
       </div>
 
       <div class="form-submit">
-        <button class="submit-button">Create</button>
+        <button
+          class="submit-button"
+          (click)="create()"
+          *ngIf="!cliente.id; else elseBlock"
+        >
+          Create
+        </button>
+        <ng-template #elseBlock>
+          <button class="submit-button" (click)="update()">Actualizar</button>
+        </ng-template>
       </div>
     </form>
   </div>
