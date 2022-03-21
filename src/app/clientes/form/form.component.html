@@ -3,15 +3,27 @@
     <h1>{{ formtitle }}</h1>
   </div>
   <div class="form-body">
-    <form autocomplete="off">
+    <form autocomplete="off" #clienteForm="ngForm">
       <div class="form-name">
-        <label for="" class="label-name"> Name: </label>
+        <label for="name" class="label-name"> Name: </label>
         <input
           type="text"
           [(ngModel)]="cliente.name"
           name="name"
           class="name-input"
+          required
+          minlength="3"
+          #name="ngModel"
         />
+        <div
+          class="alert-error"
+          *ngIf="name.invalid && (name.dirty || name.touched)"
+        >
+          <div *ngIf="name.errors.required">Name is required</div>
+          <div *ngIf="name.errors.minlength">
+            Name must have at least 3 characters
+          </div>
+        </div>
       </div>
       <div class="form-surname">
         <label for="" class="label-surname"> Surname: </label>
@@ -20,7 +32,19 @@
           [(ngModel)]="cliente.surname"
           name="surname"
           class="surname-input"
+          required
+          minlength="3"
+          #surname="ngModel"
         />
+        <div
+          class="alert-error"
+          *ngIf="surname.invalid && (surname.dirty || surname.touched)"
+        >
+          <div *ngIf="surname.errors.required">Surame is required</div>
+          <div *ngIf="surname.errors.minlength">
+            Surame must have at least 3 characters
+          </div>
+        </div>
       </div>
       <div class="form-photo">
         <label for="" class="label-photo"> Photo url: </label>
@@ -31,17 +55,29 @@
           class="photo-input"
         />
       </div>
+      <ul *ngIf="errors?.length > 0" class="list-errors">
+        <li *ngFor="let err of errors">
+          {{ err }}
+        </li>
+      </ul>
 
       <div class="form-submit">
         <button
           class="submit-button"
           (click)="create()"
           *ngIf="!cliente.id; else elseBlock"
+          [disabled]="!clienteForm.form.valid"
         >
           Create
         </button>
         <ng-template #elseBlock>
-          <button class="submit-button" (click)="update()">Actualizar</button>
+          <button
+            [disabled]="!clienteForm.form.valid"
+            class="submit-button"
+            (click)="update()"
+          >
+            Actualizar
+          </button>
         </ng-template>
       </div>
     </form>

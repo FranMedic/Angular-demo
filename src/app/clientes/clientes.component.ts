@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { tap } from "rxjs";
 import Swal from "sweetalert2";
 import { Cliente } from "./cliente";
 import { ClienteService } from "./cliente.service";
@@ -16,6 +17,16 @@ export class ClientesComponent implements OnInit {
   ngOnInit(): void {
     this.clienteService
       .getClientes()
+      .pipe(
+        tap((clientes) => {
+          // el tap nos permite realizar un filtro a los datos y cambiarlos como queramos
+          //(clientes) => (this.clientes = clientes) podriamos dejar solo esta linea y en el suscribe nada
+          console.log("Tap 3");
+          clientes.forEach((cliente) => {
+            console.log(cliente.name);
+          });
+        })
+      )
       .subscribe((clientes) => (this.clientes = clientes));
     //function(clientes) {
     //this.clientes=clientes
@@ -36,7 +47,7 @@ export class ClientesComponent implements OnInit {
         this.clienteService.delete(cliente.id).subscribe((response) => {
           this.clientes = this.clientes.filter((cli) => cli !== cliente);
 
-          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+          Swal.fire("Deleted!", "The puppet has been deleted.", "success");
         });
       }
     });

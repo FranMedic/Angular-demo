@@ -1,10 +1,13 @@
 import { Injectable } from "@angular/core";
 import { Cliente } from "./cliente";
 
-import { Observable, of } from "rxjs";
+import { Observable, tap, throwError } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { map } from "rxjs/operators";
-import { ThisReceiver } from "@angular/compiler";
+import { map, catchError } from "rxjs/operators";
+
+import Swal from "sweetalert2";
+import { Router } from "@angular/router";
+import { DatePipe, formatDate } from "@angular/common";
 
 @Injectable({
   providedIn: "root",
@@ -15,36 +18,104 @@ export class ClienteService {
   private httpHeaders = new HttpHeaders({
     "Content-Type": "application/json",
   });
-  constructor(private http: HttpClient) {}
-  getClientes(): Observable<Cliente[]> {
-    return this.http
-      .get(this.urlEndPoint)
-      .pipe(map((response) => response as Cliente[]));
-  }
+  constructor(private http: HttpClient, private router: Router) {}
 
-  create(cliente: Cliente): Observable<Cliente> {
-    return this.http.post<Cliente>(this.urlEndPoint, cliente, {
-      headers: this.httpHeaders,
-    });
+  getClientes(): Observable<Cliente[]> {
+    return this.http.get(this.urlEndPoint).pipe(
+      tap((response) => {
+        console.log("tap 1");
+        let clientes = response as Cliente[];
+        clientes.forEach((cliente) => {
+          console.log(cliente.name);
+        });
+      }),
+      map((response) => {
+        let clientes = response as Cliente[];
+
+        return clientes.map((cliente) => {
+          cliente.name = cliente.name.toUpperCase();
+          let datePipe = new DatePipe("en-US");
+          cliente.createAt = datePipe.transform(
+            cliente.createAt,
+            //"fullDate"
+            "EEEE dd, MMM, yyyy" // 4 EEEE son los dias de la semana escritos, 3 E es abreviado 4 es completo, 3 M es el mes completo esto se puede abreviar con fulldate
+          ); /*formatDate(
+            cliente.createAt,
+            "dd-MM-yyyy",
+            "en-US"
+          );*/
+
+          return cliente;
+        });
+      }),
+      tap((response) => {
+        console.log("tap 2");
+        response.forEach((cliente) => {
+          console.log(cliente.name);
+        });
+      })
+    );
+  }
+  //HANDLEERROR USANDO EL ANY SIN RECIBIR EL OBSERVABLE DE CLIENTES
+  create(cliente: Cliente): Observable<any> {
+    return this.http
+      .post<Cliente>(this.urlEndPoint, cliente, {
+        headers: this.httpHeaders,
+      })
+      .pipe(
+        catchError((e) => {
+          if (e.status === 400) {
+            return throwError(() => e);
+          }
+          console.error(e.error.mensaje);
+          Swal.fire(e.error.mensaje, e.error.error, "error");
+          return throwError(() => e);
+        })
+      );
   }
 
   getCliente(id): Observable<Cliente> {
-    return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`);
-  }
-
-  update(cliente: Cliente): Observable<Cliente> {
-    return this.http.put<Cliente>(
-      `${this.urlEndPoint}/${cliente.id}`,
-      cliente,
-      {
-        headers: this.httpHeaders,
-      }
+    return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`).pipe(
+      catchError((e) => {
+        this.router.navigate(["/clientes"]);
+        console.error(e.error.mensaje);
+        Swal.fire("Error al editar", e.error.mensaje, "error");
+        return throwError(() => e);
+      })
     );
   }
 
+  //HANDLE ERROR CONVIRTIENDO EL  ATRIBUTO CLIENTE DEL JSON EN UN OBSERVABLE DE CLIENTE
+  update(cliente: Cliente): Observable<Cliente> {
+    return this.http
+      .put(`${this.urlEndPoint}/${cliente.id}`, cliente, {
+        headers: this.httpHeaders,
+      })
+      .pipe(
+        map((json: any) => json.cliente as Cliente), //se hace aqui con un map y usamos el any en el json para hacerlo mas flexible y poder transformarlo en un obsrvable
+        catchError((e) => {
+          if (e.status === 400) {
+            return throwError(() => e);
+          }
+          console.error(e.error.mensaje);
+          Swal.fire("Error al ", e.error.mensaje, "error");
+          return throwError(() => e);
+        })
+      );
+  }
+
   delete(id: number): Observable<Cliente> {
-    return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`, {
-      headers: this.httpHeaders,
-    });
+    return this.http
+      .delete(`${this.urlEndPoint}/${id}`, {
+        headers: this.httpHeaders,
+      })
+      .pipe(
+        map((json: any) => json.cliente as Cliente), //se hace aqui con un map y usamos el any en el json para hacerlo mas flexible y poder transformarlo en un obsrvable
+        catchError((e) => {
+          console.error(e.error.mensaje);
+          Swal.fire("Error al ", e.error.mensaje, "error");
+          return throwError(() => e);
+        })
+      );
   }
 }

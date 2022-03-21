@@ -12,6 +12,7 @@ import swal from "sweetalert2";
 export class FormComponent implements OnInit {
   public cliente: Cliente = new Cliente();
   public formtitle: string = "Crear Puppet";
+  public errors: string[];
 
   constructor(
     private clienteService: ClienteService,
@@ -35,14 +36,21 @@ export class FormComponent implements OnInit {
   }
 
   public create(): void {
-    this.clienteService.create(this.cliente).subscribe((cliente) => {
-      this.router.navigate(["/clientes"]);
-      swal.fire(
-        "New Puppet",
-        `Puppet ${cliente.name} succesfully created`,
-        "success"
-      );
-    });
+    this.clienteService.create(this.cliente).subscribe(
+      (json) => {
+        this.router.navigate(["/clientes"]);
+        swal.fire(
+          "New Puppet",
+          `Puppet ${json.cliente.name} succesfully created`,
+          "success"
+        );
+      },
+      (err) => {
+        this.errors = err.error.errors as string[];
+        console.error(err.error.errors);
+        console.error("Tiene un error " + err.status);
+      }
+    );
   }
 
   update(): void {
@@ -50,8 +58,9 @@ export class FormComponent implements OnInit {
       this.router.navigate(["/clientes"]);
       swal.fire(
         "Puppet actualizada",
-        `Cliente ${cliente.name} actualizado con éxito!`,
+        `Cliente, ${cliente.name} actualizado con éxito!`,
         "success"
+        //se puede usar  ${json.mensaje} para traer el mensaje creado en el back
       );
     });
   }
