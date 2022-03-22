@@ -21,27 +21,23 @@ export class FormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.cargarCliente();
-  }
-
-  cargarCliente(): void {
-    this.activatedRoute.params.subscribe((params) => {
-      let id = params["id"];
+    this.activatedRoute.paramMap.subscribe((params) => {
+      let id = +params.get("id");
       if (id) {
         this.clienteService
-          .getCliente(id)
+          .getClienteById(id)
           .subscribe((cliente) => (this.cliente = cliente));
       }
     });
   }
 
-  public create(): void {
+  create(): void {
     this.clienteService.create(this.cliente).subscribe(
-      (json) => {
+      (cliente) => {
         this.router.navigate(["/clientes"]);
         swal.fire(
           "New Puppet",
-          `Puppet ${json.cliente.name} succesfully created`,
+          `Puppet ${cliente.name} succesfully created`,
           "success"
         );
       },

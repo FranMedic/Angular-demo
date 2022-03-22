@@ -7,7 +7,7 @@ import { map, catchError } from "rxjs/operators";
 
 import Swal from "sweetalert2";
 import { Router } from "@angular/router";
-import { DatePipe, formatDate } from "@angular/common";
+import { DatePipe } from "@angular/common";
 
 @Injectable({
   providedIn: "root",
@@ -20,37 +20,34 @@ export class ClienteService {
   });
   constructor(private http: HttpClient, private router: Router) {}
 
-  getClientes(): Observable<Cliente[]> {
-    return this.http.get(this.urlEndPoint).pipe(
-      tap((response) => {
-        console.log("tap 1");
-        let clientes = response as Cliente[];
-        clientes.forEach((cliente) => {
+  getClientes(page: number): Observable<any> {
+    return this.http.get(this.urlEndPoint + "/page/" + page).pipe(
+      tap((response: any) => {
+        console.log("auuda");
+        (response.content as Cliente[]).forEach((cliente) => {
           console.log(cliente.name);
         });
       }),
-      map((response) => {
-        let clientes = response as Cliente[];
-
-        return clientes.map((cliente) => {
+      map((response: any) => {
+        (response.content as Cliente[]).map((cliente) => {
           cliente.name = cliente.name.toUpperCase();
           let datePipe = new DatePipe("en-US");
           cliente.createAt = datePipe.transform(
             cliente.createAt,
-            //"fullDate"
-            "EEEE dd, MMM, yyyy" // 4 EEEE son los dias de la semana escritos, 3 E es abreviado 4 es completo, 3 M es el mes completo esto se puede abreviar con fulldate
-          ); /*formatDate(
-            cliente.createAt,
-            "dd-MM-yyyy",
-            "en-US"
-          );*/
+            "EEEE dd, MMM, yyyy"
+          );
+          // 4 EEEE son los dias de la semana escritos,
+          //3 E es abreviado 4 es completo, 3 M es el mes completo esto se puede abreviar con fulldate
+          /*formatDate("fullDate"cliente.createAt,"dd-MM-yyyy","en-US");*/
 
           return cliente;
         });
+
+        return response;
       }),
       tap((response) => {
         console.log("tap 2");
-        response.forEach((cliente) => {
+        (response.content as Cliente[]).forEach((cliente) => {
           console.log(cliente.name);
         });
       })
@@ -74,7 +71,7 @@ export class ClienteService {
       );
   }
 
-  getCliente(id): Observable<Cliente> {
+  getClienteById(id: number): Observable<Cliente> {
     return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`).pipe(
       catchError((e) => {
         this.router.navigate(["/clientes"]);
@@ -86,9 +83,9 @@ export class ClienteService {
   }
 
   //HANDLE ERROR CONVIRTIENDO EL  ATRIBUTO CLIENTE DEL JSON EN UN OBSERVABLE DE CLIENTE
-  update(cliente: Cliente): Observable<Cliente> {
+  update(cliente: Cliente): Observable<any> {
     return this.http
-      .put(`${this.urlEndPoint}/${cliente.id}`, cliente, {
+      .put<any>(`${this.urlEndPoint}/${cliente.id}`, cliente, {
         headers: this.httpHeaders,
       })
       .pipe(

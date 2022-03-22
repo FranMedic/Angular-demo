@@ -11,10 +11,12 @@ import { RouterModule, Routes } from "@angular/router";
 
 import { FormComponent } from "./clientes/form/form.component";
 import { FormsModule } from "@angular/forms";
+import { PaginateComponent } from "./paginate/paginate.component";
 
 const routes: Routes = [
   { path: "", redirectTo: "/clientes", pathMatch: "full" }, //home
   { path: "clientes", component: ClientesComponent }, //path que queremos
+  { path: "clientes/page/:page", component: ClientesComponent },
   { path: "clientes/crear", component: FormComponent },
   { path: "clientes/crear/:id", component: FormComponent },
 ];
@@ -25,6 +27,7 @@ const routes: Routes = [
     FooterComponent,
     ClientesComponent,
     FormComponent,
+    PaginateComponent,
   ],
   imports: [
     BrowserModule,
