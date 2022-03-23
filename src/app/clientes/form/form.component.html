@@ -55,6 +55,18 @@
           class="photo-input"
         />
       </div>
+      <div class="form-date">
+        <label for="date" class="label-photo"> Birthday: </label>
+        <input
+          type="date"
+          [(ngModel)]="cliente.createAt"
+          name="date"
+          class="date-input"
+        />
+        <!--<input matInput [matDatepicker]="picker" />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>-->
+      </div>
       <ul *ngIf="errors?.length > 0" class="list-errors">
         <li *ngFor="let err of errors">
           {{ err }}
