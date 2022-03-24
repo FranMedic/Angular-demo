@@ -46,7 +46,7 @@
           </div>
         </div>
       </div>
-      <div class="form-photo">
+      <!--  <div class="form-photo">
         <label for="" class="label-photo"> Photo url: </label>
         <input
           type="text"
@@ -54,19 +54,31 @@
           name="photo"
           class="photo-input"
         />
-      </div>
+      </div>-->
       <div class="form-date">
-        <label for="date" class="label-photo"> Birthday: </label>
+        <label for="date" class="label-date"> Birthday: </label>
         <input
           type="date"
           [(ngModel)]="cliente.createAt"
           name="date"
           class="date-input"
         />
-        <!--<input matInput [matDatepicker]="picker" />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>-->
       </div>
+      <div class="form-region">
+        <label for="region" class="label-region"> Region: </label>
+        <select
+          [compareWith]="compareRegion"
+          [(ngModel)]="cliente.region"
+          name="region"
+          class="region-input"
+        >
+          <option [ngValue]="undefined">--- Select a region ----</option>
+          <option *ngFor="let region of regiones" [ngValue]="region">
+            {{ region.name }}
+          </option>
+        </select>
+      </div>
+
       <ul *ngIf="errors?.length > 0" class="list-errors">
         <li *ngFor="let err of errors">
           {{ err }}
@@ -76,7 +88,7 @@
       <div class="form-submit">
         <button
           class="submit-button"
-          (click)="create()"
+          (click)="create(event)"
           *ngIf="!cliente.id; else elseBlock"
           [disabled]="!clienteForm.form.valid"
         >

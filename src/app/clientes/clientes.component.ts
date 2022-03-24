@@ -4,6 +4,8 @@ import { tap } from "rxjs";
 import Swal from "sweetalert2";
 import { Cliente } from "./cliente";
 import { ClienteService } from "./cliente.service";
+import { faImage, faUserPen } from "@fortawesome/free-solid-svg-icons";
+import { ModalService } from "./upload-form/modal.service";
 
 @Component({
   selector: "app-clientes",
@@ -14,10 +16,13 @@ export class ClientesComponent implements OnInit {
   clientes: Cliente[];
 
   paginador: any;
+  clienteSelected: Cliente;
+  faImage = faImage;
 
   constructor(
     private clienteService: ClienteService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private modalService: ModalService
   ) {}
 
   ngOnInit() {
@@ -42,6 +47,15 @@ export class ClientesComponent implements OnInit {
           this.paginador = response;
         });
     });
+
+    this.modalService.notificateUploadGetter.subscribe((cliente) => {
+      this.clientes = this.clientes.map((clienteOriginal) => {
+        if (cliente.id === clienteOriginal.id) {
+          clienteOriginal.photo = cliente.photo;
+        }
+        return clienteOriginal;
+      });
+    });
   }
 
   delete(cliente: Cliente): void {
@@ -62,5 +76,10 @@ export class ClientesComponent implements OnInit {
         });
       }
     });
+  }
+
+  photoModal(cliente: Cliente) {
+    this.clienteSelected = cliente;
+    this.modalService.openModal();
   }
 }

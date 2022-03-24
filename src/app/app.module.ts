@@ -13,16 +13,18 @@ import { FormComponent } from "./clientes/form/form.component";
 import { FormsModule } from "@angular/forms";
 import { PaginateComponent } from "./paginate/paginate.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { MatSliderModule } from "@angular/material/slider";
-import { MatNativeDateModule } from "@angular/material/core";
-import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatFormFieldControl } from "@angular/material/form-field";
+
+import { DetalleComponent } from "./clientes/detalle/detalle.component";
+import { UploadFormComponent } from "./clientes/upload-form/upload-form.component";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+
 const routes: Routes = [
   { path: "", redirectTo: "/clientes", pathMatch: "full" }, //home
   { path: "clientes", component: ClientesComponent }, //path que queremos
   { path: "clientes/page/:page", component: ClientesComponent },
   { path: "clientes/crear", component: FormComponent },
   { path: "clientes/crear/:id", component: FormComponent },
+  { path: "clientes/detalle/:id", component: DetalleComponent },
 ];
 @NgModule({
   declarations: [
@@ -32,6 +34,8 @@ const routes: Routes = [
     ClientesComponent,
     FormComponent,
     PaginateComponent,
+    DetalleComponent,
+    UploadFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,9 +43,7 @@ const routes: Routes = [
     FormsModule,
     RouterModule.forRoot(routes),
     BrowserAnimationsModule,
-    MatSliderModule,
-    MatNativeDateModule,
-    MatDatepickerModule,
+    FontAwesomeModule,
   ],
   providers: [ClienteService],
   bootstrap: [AppComponent],

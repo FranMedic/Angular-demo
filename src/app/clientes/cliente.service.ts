@@ -2,12 +2,18 @@ import { Injectable } from "@angular/core";
 import { Cliente } from "./cliente";
 
 import { Observable, tap, throwError } from "rxjs";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import {
+  HttpClient,
+  HttpEvent,
+  HttpHeaders,
+  HttpRequest,
+} from "@angular/common/http";
 import { map, catchError } from "rxjs/operators";
 
 import Swal from "sweetalert2";
 import { Router } from "@angular/router";
 import { DatePipe } from "@angular/common";
+import { Region } from "./region";
 
 @Injectable({
   providedIn: "root",
@@ -20,6 +26,9 @@ export class ClienteService {
   });
   constructor(private http: HttpClient, private router: Router) {}
 
+  getRegiones(): Observable<Region[]> {
+    return this.http.get<Region[]>(this.urlEndPoint + "/regiones");
+  }
   getClientes(page: number): Observable<any> {
     return this.http.get(this.urlEndPoint + "/page/" + page).pipe(
       tap((response: any) => {
@@ -114,5 +123,30 @@ export class ClienteService {
           return throwError(() => e);
         })
       );
+  }
+
+  uploadPhoto(file: File, id): Observable<HttpEvent<{}>> {
+    let formData = new FormData();
+
+    formData.append("file", file);
+    formData.append("id", id);
+
+    const req = new HttpRequest(
+      "POST",
+      `${this.urlEndPoint}/upload/`,
+      formData,
+      {
+        reportProgress: true,
+      }
+    );
+    return this.http.request(req); /*
+    .pipe(
+      map((response: any) => response.cliente as Cliente),
+      catchError((e) => {
+        console.error(e.error.mensaje);
+        Swal.fire("Error al ", e.error.mensaje, "error");
+        return throwError(() => e);
+      })
+    );*/
   }
 }

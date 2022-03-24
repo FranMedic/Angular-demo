@@ -1,0 +1,52 @@
+<div
+  class="photoModal animation fadeIn"
+  *ngIf="modalService.modal"
+  [ngClass]="{ active: modalService.modal }"
+>
+  <div class="form-body">
+    <div class="close-modal">
+      <button class="close-button" (click)="closePhotoModal()">
+        <fa-icon [icon]="faXmark"></fa-icon>
+      </button>
+    </div>
+    <form autocomplete="off" #clienteForm="ngForm">
+      <div class="puppet-info">
+        <h3>Name: {{ cliente.name }}</h3>
+        <div class="image-preview">
+          <img
+            *ngIf="cliente?.photo"
+            src="http://localhost:8080/api/uploads/img/{{ cliente.photo }}"
+            alt="client.name"
+          />
+        </div>
+      </div>
+      <div class="upload-container">
+        <div>
+          <label for="upload" class="upload-label">Choose a Photo</label>
+          <input
+            (change)="selectPhoto($event)"
+            type="file"
+            class="upload-input"
+            id="upload"
+          />
+          <div class="progress">
+            <label for="file">File progress:</label>
+            <progress id="file" max="100" value="{{ progress }}">100%</progress>
+
+            <span class="progress-percentage">{{ progress }}%</span>
+          </div>
+        </div>
+        <div class="upload-append">
+          <button
+            class="button-upload"
+            (click)="uploadPhotoFile()"
+            type="button"
+            id="upload"
+          >
+            Upload
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

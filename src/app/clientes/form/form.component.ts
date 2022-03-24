@@ -3,6 +3,7 @@ import { Cliente } from "../cliente";
 import { ClienteService } from "../cliente.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import swal from "sweetalert2";
+import { Region } from "../region";
 
 @Component({
   selector: "app-form",
@@ -13,6 +14,7 @@ export class FormComponent implements OnInit {
   public cliente: Cliente = new Cliente();
   public formtitle: string = "Crear Puppet";
   public errors: string[];
+  regiones: Region[];
 
   constructor(
     private clienteService: ClienteService,
@@ -29,6 +31,10 @@ export class FormComponent implements OnInit {
           .subscribe((cliente) => (this.cliente = cliente));
       }
     });
+
+    this.clienteService
+      .getRegiones()
+      .subscribe((regiones) => (this.regiones = regiones));
   }
 
   create(): void {
@@ -59,5 +65,13 @@ export class FormComponent implements OnInit {
         //se puede usar  ${json.mensaje} para traer el mensaje creado en el back
       );
     });
+  }
+
+  compareRegion(o1: Region, o2: Region): boolean {
+    if (o1 === undefined && o2 === undefined) {
+      return true;
+    }
+    return o1 && o2 ? o1.id === o2.id : o1 === o2;
+    //return o1 === null || o1 === undefined || o2 === null || o2 === undefined ? false : o1.id === o2.id;
   }
 }
