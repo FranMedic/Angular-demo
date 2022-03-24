@@ -1,0 +1,20 @@
+<div class="card detalle">
+  <div class="card-title">{{ cliente.name }} {{ cliente.surname }}</div>
+  <img
+    *ngIf="cliente?.photo"
+    src="http://localhost:8080/api/uploads/img/{{ cliente.photo }}"
+    alt="client.name"
+  />
+  <img
+    *ngIf="!cliente.photo"
+    src="http://localhost:8080/images/default.jpg"
+    src="../../assets/default.jpg"
+    alt="client.name"
+  />
+  <p class="card-id">Id: {{ cliente.id }}</p>
+  <p class="card-date">Birthday: {{ cliente.createAt }}</p>
+  <!-- | date " EEEE dd, MMM, yyyy"-->
+  <p class="card-region">Región: {{ cliente.region.name }}</p>
+
+  <div></div>
+</div>
