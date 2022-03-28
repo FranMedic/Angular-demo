@@ -16,5 +16,38 @@
   <!-- | date " EEEE dd, MMM, yyyy"-->
   <p class="card-region">Región: {{ cliente.region.name }}</p>
 
-  <div></div>
+  <div class="factura-container">
+    <div class="factura-title">Facturas</div>
+    <div>
+      <div *ngIf="cliente.facturas.length === 0">
+        No hay facturas asignadas para el cliente {{ cliente.name }}
+        {{ cliente.surname }}
+      </div>
+      <table *ngIf="cliente.facturas.length > 0">
+        <thead>
+          <th>Folio</th>
+          <th>Descripción</th>
+          <th>Fecha</th>
+          <th>Total</th>
+          <th>Detalle</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let factura of cliente.facturas">
+            <td>{{ factura.id }}</td>
+            <td>{{ factura.description }}</td>
+            <td>{{ factura.createAt }}</td>
+            <td>{{ factura.total }}</td>
+            <td>
+              <button
+                class="factura-detail-button"
+                [routerLink]="['/facturas', factura.id]"
+              >
+                Ver
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

@@ -22,6 +22,7 @@ import { AuthGuard } from "./usuarios/guards/auth.guard";
 import { RoleGuard } from "./usuarios/guards/role.guard";
 import { TokenInterceptor } from "./usuarios/interceptors/token.interceptors";
 import { AuthInterceptor } from "./usuarios/interceptors/auth.interceptors";
+import { DetalleFacturaComponent } from "./facturas/detalle-factura.component";
 
 const routes: Routes = [
   { path: "", redirectTo: "/clientes", pathMatch: "full" }, //home
@@ -41,6 +42,7 @@ const routes: Routes = [
   },
   { path: "clientes/detalle/:id", component: DetalleComponent },
   { path: "login", component: LoginComponent },
+  { path: "facturas/:id", component: DetalleFacturaComponent },
 ];
 @NgModule({
   declarations: [
@@ -53,6 +55,7 @@ const routes: Routes = [
     DetalleComponent,
     UploadFormComponent,
     LoginComponent,
+    DetalleFacturaComponent,
   ],
   imports: [
     BrowserModule,
