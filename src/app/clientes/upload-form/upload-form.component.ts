@@ -36,7 +36,7 @@ export class UploadFormComponent implements OnInit {
   selectPhoto(event) {
     this.selectedPhoto = event.target.files[0];
     this.progress = 0;
-    console.log(this.selectedPhoto);
+
     if (this.selectedPhoto.type.indexOf("image") < 0) {
       Swal.fire(
         "Error Upload: ",
@@ -51,6 +51,7 @@ export class UploadFormComponent implements OnInit {
     if (!this.selectedPhoto) {
       Swal.fire("Error Upload: ", "Debe seleccionar una foto", "error");
     } else {
+      console.log(this.selectedPhoto);
       this.clienteService
         .uploadPhoto(this.selectedPhoto, this.cliente.id)
         .subscribe((event) => {
@@ -65,6 +66,7 @@ export class UploadFormComponent implements OnInit {
               `Foto, ${response.mensaje} subida con éxito!`,
               "success"
             );
+            console.log(response);
           }
         });
     }
