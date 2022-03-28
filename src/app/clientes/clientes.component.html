@@ -9,7 +9,12 @@
     <div *ngIf="clientes?.length === 0">
       <p>
         No hay ninguna Puppet,
-        <a routerLink="/clientes/crear"> ¿Quieres crear una? </a>
+        <a
+          *ngIf="authService.hasRole('ROLE_ADMIN')"
+          routerLink="/clientes/crear"
+        >
+          ¿Quieres crear una?
+        </a>
       </p>
     </div>
     <div class="card-list" *ngIf="clientes?.length > 0">
@@ -34,15 +39,24 @@
             </div>
           </div>
           <button
+            *ngIf="authService.hasRole('ROLE_ADMIN')"
             class="edit-button"
             routerLink="/clientes/crear/{{ this.cliente.id }}"
           >
             Editar
           </button>
-          <button class="delete-button" (click)="delete(cliente)">
+          <button
+            *ngIf="authService.hasRole('ROLE_ADMIN')"
+            class="delete-button"
+            (click)="delete(cliente)"
+          >
             Borrar
           </button>
-          <button class="photo-edit" (click)="photoModal(cliente)">
+          <button
+            *ngIf="authService.hasRole('ROLE_ADMIN')"
+            class="photo-edit"
+            (click)="photoModal(cliente)"
+          >
             <fa-icon [icon]="faImage"></fa-icon>
           </button>
         </li>

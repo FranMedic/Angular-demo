@@ -6,6 +6,7 @@ import { Cliente } from "./cliente";
 import { ClienteService } from "./cliente.service";
 import { faImage, faUserPen } from "@fortawesome/free-solid-svg-icons";
 import { ModalService } from "./upload-form/modal.service";
+import { AuthService } from "../usuarios/auth.service";
 
 @Component({
   selector: "app-clientes",
@@ -20,6 +21,7 @@ export class ClientesComponent implements OnInit {
   faImage = faImage;
 
   constructor(
+    private authService: AuthService,
     private clienteService: ClienteService,
     private activatedRoute: ActivatedRoute,
     private modalService: ModalService
@@ -36,9 +38,8 @@ export class ClientesComponent implements OnInit {
         .getClientes(page)
         .pipe(
           tap((response: any) => {
-            console.log("ClientesComponent: tap 3");
             (response.content as Cliente[]).forEach((cliente) =>
-              console.log(cliente.name + "1")
+              console.log("tap")
             );
           })
         )
@@ -68,6 +69,7 @@ export class ClientesComponent implements OnInit {
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
+      console.log("holaaa");
       if (result.isConfirmed) {
         this.clienteService.delete(cliente.id).subscribe((response) => {
           this.clientes = this.clientes.filter((cli) => cli !== cliente);

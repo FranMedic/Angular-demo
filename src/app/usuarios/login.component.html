@@ -1,0 +1,40 @@
+<div class="login-container">
+  <div class="login-title">{{ title }}</div>
+  <div class="form-body">
+    <form class="login-form" method="post">
+      <p class="login-text">
+        <span class="fa-stack fa-lg">
+          <fa-icon [icon]="faCircle"></fa-icon>
+          <fa-icon [icon]="faLock"></fa-icon>
+        </span>
+      </p>
+      <input
+        [(ngModel)]="usuario.username"
+        type="text"
+        class="login-username"
+        autofocus="true"
+        id="username"
+        name="username"
+        required="true"
+        placeholder="Username"
+      />
+      <input
+        [(ngModel)]="usuario.password"
+        type="password"
+        class="login-password"
+        id="password"
+        name="password"
+        required="true"
+        placeholder="****"
+      />
+      <input
+        type="submit"
+        (click)="login()"
+        name="Login"
+        value="Login"
+        class="login-submit"
+      />
+    </form>
+    <a href="#" class="login-forgot-pass">forgot password?</a>
+  </div>
+</div>

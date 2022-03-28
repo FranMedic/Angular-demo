@@ -5,22 +5,31 @@
       <li class="navbar__title">
         <h1>{{ title }}</h1>
       </li>
-      <li routerLinkActive="active">
+      <li *ngIf="authService.hasRole('ROLE_ADMIN')" routerLinkActive="active">
         <a routerLink="/clientes/crear" class="navbar__link"
           >Create your Puppet</a
         >
       </li>
-      <li routerLinkActive="active">
+      <li *ngIf="authService.isAuthenticated()" routerLinkActive="active">
         <a routerLink="/clientes/page/0" class="navbar__link">The Puppets </a>
       </li>
       <li>
+        <button
+          class="login-button"
+          *ngIf="!authService.isAuthenticated()"
+          [routerLink]="['/login']"
+        >
+          Sing In!
+        </button>
+      </li>
+
+      <li *ngIf="authService.isAuthenticated()">
         <div class="navbar__dropdown">
           Dropdaaaaauun
 
           <div class="dropdown-content">
-            <a routerLink="#">Tengo</a>
-            <a routerLink="#">Hambre</a>
-            <a routerLink="#">Uwu</a>
+            <a routerLink="#">{{ authService.usuario.username }}</a>
+            <button class="logout-button" (click)="logout()">Log Out!</button>
           </div>
         </div>
       </li>
