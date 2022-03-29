@@ -1,4 +1,9 @@
-<div class="card detalle">
+<div class="card detalle" *ngIf="cliente">
+  <div>
+    <button class="detailFactura-back" [routerLink]="['/clientes']">
+      &laquo; Back
+    </button>
+  </div>
   <div class="card-title">{{ cliente.name }} {{ cliente.surname }}</div>
   <img
     *ngIf="cliente?.photo"
@@ -16,5 +21,61 @@
   <!-- | date " EEEE dd, MMM, yyyy"-->
   <p class="card-region">Región: {{ cliente.region.name }}</p>
 
-  <div></div>
+  <div class="factura-container">
+    <div class="factura-title">Facturas</div>
+
+    <div>
+      <button
+        class="new-factura-button"
+        [routerLink]="['/facturas/form', cliente.id]"
+        *ngIf="authService.hasRole('ROLE_ADMIN')"
+      >
+        Crear Nueva Factura
+      </button>
+    </div>
+    <div>
+      <div *ngIf="cliente.facturas.length === 0">
+        No hay facturas asignadas para el cliente {{ cliente.name }}
+        {{ cliente.surname }}
+      </div>
+      <table *ngIf="cliente.facturas.length > 0">
+        <thead>
+          <tr>
+            <th>Folio</th>
+            <th>Descripción</th>
+            <th>Fecha</th>
+            <th>Total</th>
+            <th>Detalle</th>
+            <th>Eliminar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let factura of cliente.facturas">
+            <td>{{ factura.id }}</td>
+            <td>{{ factura.description }}</td>
+            <td>{{ factura.createAt }}</td>
+            <td>{{ factura.total }}</td>
+
+            <td>
+              <button
+                class="factura-detail-button"
+                [routerLink]="['/facturas', factura.id]"
+              >
+                Ver
+              </button>
+            </td>
+            <td>
+              <button
+                *ngIf="authService.hasRole('ROLE_ADMIN')"
+                class="factura-delete-button"
+                (click)="delete(factura)"
+              >
+                Eliminar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

@@ -1,0 +1,47 @@
+<div class="detailFactura-container" *ngIf="factura">
+  <div class="detailFactura-body">
+    <div class="detailFactura-title">
+      {{ titulo }}: {{ factura.description }}
+    </div>
+    <div>
+      <button class="detailFactura-back" [routerLink]="['/clientes']">
+        &laquo; Back
+      </button>
+    </div>
+    <ul class="detailFactura-list">
+      <li class="detailFactura-listHeader">Datos del Cliente</li>
+      <li>Nombre: {{ factura.cliente.name }}</li>
+      <li>Apellidos: {{ factura.cliente.surname }}</li>
+    </ul>
+
+    <ul class="detailFactura-listaFactura">
+      <li class="detailFactura-listHeader">Datos de la Factura</li>
+      <li>Id Factura: {{ factura.id }}</li>
+      <li>Descripción: {{ factura.description }}</li>
+      <li>Fecha: {{ factura.createAt }}</li>
+    </ul>
+
+    <table>
+      <thead>
+        <th>Producto</th>
+        <th>Precio</th>
+        <th>Cantidad</th>
+        <th>Importe</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of factura.items">
+          <td>{{ item.producto.nombre }}</td>
+          <td>{{ item.producto.precio }}</td>
+          <td>{{ item.cantidad }}</td>
+          <td>{{ item.importe }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <h5>Precio Total: {{ factura.total }}</h5>
+    <div class="detail-factura-observaciones">
+      <h5>Observaciones:</h5>
+      <p *ngIf="!factura.observation">No tiene observaciones</p>
+      <p *ngIf="factura.observation">{{ factura.observation }}</p>
+    </div>
+  </div>
+</div>

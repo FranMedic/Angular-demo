@@ -1,0 +1,128 @@
+<div class="container">
+  <div class="form-body">
+    <div>
+      <button class="detailFactura-back" [routerLink]="['/clientes']">
+        &laquo; Back
+      </button>
+    </div>
+    <form autocomplete="off" #facturaForm="ngForm">
+      <div class="name-input" *ngIf="factura.cliente">
+        <label>Nombre del Cliente:</label>
+        <input
+          type="text"
+          name="cliente"
+          value="{{ factura.cliente.name }} {{ factura.cliente.surname }}"
+          disabled
+        />
+      </div>
+      <div>
+        <label for="descripcion" class="form-decription-label"
+          >Descripción</label
+        >
+        <input
+          type="text"
+          id="descripcion"
+          name="descripcion"
+          required
+          #descripcion="ngModel"
+          class="description-input"
+          [(ngModel)]="factura.description"
+        />
+      </div>
+      <div>
+        <label for="observation" class="form-observation-label"
+          >Observaciones
+        </label>
+        <textarea
+          type="textarea"
+          id="observation"
+          name="observation"
+          class="observation-input"
+          [(ngModel)]="factura.observation"
+        >
+        </textarea>
+      </div>
+      <div class="cosa-rara">
+        <mat-form-field appearance="fill">
+          <mat-label>Productos</mat-label>
+          <input
+            type="text"
+            placeholder="Añadir Productos"
+            aria-label="Productos"
+            matInput
+            [formControl]="autoCompleteControl"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete
+            autoActiveFirstOption
+            #auto="matAutocomplete"
+            [displayWith]="mostrarNombre"
+            (optionSelected)="seleccionarProducto($event)"
+          >
+            <mat-option
+              *ngFor="let producto of productosFiltrados | async"
+              [value]="producto"
+            >
+              {{ producto.nombre }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="factura.items.length === 0">
+        No hay productos asignados en la factura, debe añadir al menos uno.
+      </div>
+      <table class="tabla-facturas" *ngIf="factura.items.length > 0">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of factura.items">
+            <td>{{ item.producto.nombre }}</td>
+            <td>{{ item.producto.precio }}</td>
+            <td>
+              <input
+                type="number"
+                value="{{ item.cantidad }}"
+                (change)="actualizarCantidad(item.producto.id, $event)"
+              />
+            </td>
+            <td>{{ item.calcularImporte() }}</td>
+            <td>
+              <button (click)="eliminarItemFactura(item.producto.id)">
+                Borrar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div>
+        <h5>
+          Gran Total: <span>{{ factura.calcularGranTotal() }}</span>
+        </h5>
+      </div>
+      <div
+        *ngIf="descripcion.invalid && descripcion.touched"
+        class="alert-factura"
+      >
+        <p>Debe introducir una descripcion de la factura</p>
+      </div>
+      <div>
+        <label></label>
+        <input
+          type="submit"
+          (click)="createFactura(facturaForm)"
+          value="Crear Factura"
+          class="submit-button"
+          [disabled]="facturaForm.invalid || factura.items.length == 0"
+        />
+      </div>
+    </form>
+  </div>
+</div>
