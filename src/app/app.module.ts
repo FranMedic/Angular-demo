@@ -24,6 +24,8 @@ import { TokenInterceptor } from "./usuarios/interceptors/token.interceptors";
 import { AuthInterceptor } from "./usuarios/interceptors/auth.interceptors";
 import { DetalleFacturaComponent } from "./facturas/detalle-factura.component";
 
+import { CreateFacturaComponent } from "./facturas/create-factura/create-factura.component";
+
 const routes: Routes = [
   { path: "", redirectTo: "/clientes", pathMatch: "full" }, //home
   { path: "clientes", component: ClientesComponent }, //path que queremos
@@ -43,6 +45,7 @@ const routes: Routes = [
   { path: "clientes/detalle/:id", component: DetalleComponent },
   { path: "login", component: LoginComponent },
   { path: "facturas/:id", component: DetalleFacturaComponent },
+  { path: "facturas/form/:clienteId", component: CreateFacturaComponent },
 ];
 @NgModule({
   declarations: [
@@ -56,6 +59,7 @@ const routes: Routes = [
     UploadFormComponent,
     LoginComponent,
     DetalleFacturaComponent,
+    CreateFacturaComponent,
   ],
   imports: [
     BrowserModule,

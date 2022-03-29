@@ -18,6 +18,15 @@
 
   <div class="factura-container">
     <div class="factura-title">Facturas</div>
+
+    <div>
+      <button
+        class="new-factura-button"
+        [routerLink]="['facturas/form', cliente.id]"
+      >
+        Crear Nueva Factura
+      </button>
+    </div>
     <div>
       <div *ngIf="cliente.facturas.length === 0">
         No hay facturas asignadas para el cliente {{ cliente.name }}
@@ -30,6 +39,7 @@
           <th>Fecha</th>
           <th>Total</th>
           <th>Detalle</th>
+          <th>Eliminar</th>
         </thead>
         <tbody>
           <tr *ngFor="let factura of cliente.facturas">
@@ -37,12 +47,18 @@
             <td>{{ factura.description }}</td>
             <td>{{ factura.createAt }}</td>
             <td>{{ factura.total }}</td>
+
             <td>
               <button
                 class="factura-detail-button"
                 [routerLink]="['/facturas', factura.id]"
               >
                 Ver
+              </button>
+            </td>
+            <td>
+              <button class="factura-delete-button" (click)="delete(factura)">
+                Eliminar
               </button>
             </td>
           </tr>
