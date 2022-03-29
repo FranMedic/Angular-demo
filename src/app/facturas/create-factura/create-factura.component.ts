@@ -115,7 +115,7 @@ export class CreateFacturaComponent implements OnInit {
             `Factura ${factura.description} creada con exito!`,
             "success"
           );
-          this.router.navigate(["/clientes"]);
+          this.router.navigate(["/facturas", factura.id]);
         });
     }
   }

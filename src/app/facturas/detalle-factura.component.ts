@@ -13,7 +13,7 @@ export class DetalleFacturaComponent implements OnInit {
   factura: Factura;
   titulo: string = "Factura";
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private facturasService: FacturasService,
     private activatedRoute: ActivatedRoute
   ) {}

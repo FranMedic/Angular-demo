@@ -4,7 +4,7 @@ import { tap } from "rxjs";
 import Swal from "sweetalert2";
 import { Cliente } from "./cliente";
 import { ClienteService } from "./cliente.service";
-import { faImage, faUserPen } from "@fortawesome/free-solid-svg-icons";
+import { faImage } from "@fortawesome/free-solid-svg-icons";
 import { ModalService } from "./upload-form/modal.service";
 import { AuthService } from "../usuarios/auth.service";
 
@@ -21,10 +21,10 @@ export class ClientesComponent implements OnInit {
   faImage = faImage;
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private clienteService: ClienteService,
     private activatedRoute: ActivatedRoute,
-    private modalService: ModalService
+    public modalService: ModalService
   ) {}
 
   ngOnInit() {
