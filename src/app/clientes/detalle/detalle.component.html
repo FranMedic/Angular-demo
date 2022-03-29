@@ -1,4 +1,9 @@
-<div class="card detalle">
+<div class="card detalle" *ngIf="cliente">
+  <div>
+    <button class="detailFactura-back" [routerLink]="['/clientes']">
+      &laquo; Back
+    </button>
+  </div>
   <div class="card-title">{{ cliente.name }} {{ cliente.surname }}</div>
   <img
     *ngIf="cliente?.photo"
@@ -22,7 +27,8 @@
     <div>
       <button
         class="new-factura-button"
-        [routerLink]="['facturas/form', cliente.id]"
+        [routerLink]="['/facturas/form', cliente.id]"
+        *ngIf="authService.hasRole('ROLE_ADMIN')"
       >
         Crear Nueva Factura
       </button>
@@ -34,12 +40,14 @@
       </div>
       <table *ngIf="cliente.facturas.length > 0">
         <thead>
-          <th>Folio</th>
-          <th>Descripción</th>
-          <th>Fecha</th>
-          <th>Total</th>
-          <th>Detalle</th>
-          <th>Eliminar</th>
+          <tr>
+            <th>Folio</th>
+            <th>Descripción</th>
+            <th>Fecha</th>
+            <th>Total</th>
+            <th>Detalle</th>
+            <th>Eliminar</th>
+          </tr>
         </thead>
         <tbody>
           <tr *ngFor="let factura of cliente.facturas">
@@ -57,7 +65,11 @@
               </button>
             </td>
             <td>
-              <button class="factura-delete-button" (click)="delete(factura)">
+              <button
+                *ngIf="authService.hasRole('ROLE_ADMIN')"
+                class="factura-delete-button"
+                (click)="delete(factura)"
+              >
                 Eliminar
               </button>
             </td>

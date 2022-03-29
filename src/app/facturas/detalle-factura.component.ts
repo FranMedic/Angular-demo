@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
+import { AuthService } from "../usuarios/auth.service";
 import { Factura } from "./models/factura";
 import { FacturasService } from "./services/facturas.service";
 
@@ -12,6 +13,7 @@ export class DetalleFacturaComponent implements OnInit {
   factura: Factura;
   titulo: string = "Factura";
   constructor(
+    private authService: AuthService,
     private facturasService: FacturasService,
     private activatedRoute: ActivatedRoute
   ) {}

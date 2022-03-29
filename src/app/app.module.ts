@@ -10,9 +10,13 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { RouterModule, Routes } from "@angular/router";
 
 import { FormComponent } from "./clientes/form/form.component";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { PaginateComponent } from "./paginate/paginate.component";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
 
 import { DetalleComponent } from "./clientes/detalle/detalle.component";
 import { UploadFormComponent } from "./clientes/upload-form/upload-form.component";
@@ -25,6 +29,7 @@ import { AuthInterceptor } from "./usuarios/interceptors/auth.interceptors";
 import { DetalleFacturaComponent } from "./facturas/detalle-factura.component";
 
 import { CreateFacturaComponent } from "./facturas/create-factura/create-factura.component";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 const routes: Routes = [
   { path: "", redirectTo: "/clientes", pathMatch: "full" }, //home
@@ -44,8 +49,18 @@ const routes: Routes = [
   },
   { path: "clientes/detalle/:id", component: DetalleComponent },
   { path: "login", component: LoginComponent },
-  { path: "facturas/:id", component: DetalleFacturaComponent },
-  { path: "facturas/form/:clienteId", component: CreateFacturaComponent },
+  {
+    path: "facturas/:id",
+    component: DetalleFacturaComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { role: "ROLE_USER" },
+  },
+  {
+    path: "facturas/form/:clienteId",
+    component: CreateFacturaComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { role: "ROLE_ADMIN" },
+  },
 ];
 @NgModule({
   declarations: [
@@ -66,8 +81,12 @@ const routes: Routes = [
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot(routes),
-    BrowserAnimationsModule,
     FontAwesomeModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatInputModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     ClienteService,

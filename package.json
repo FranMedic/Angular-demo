@@ -27,7 +27,6 @@
     "@fortawesome/free-regular-svg-icons": "^6.1.0",
     "@fortawesome/free-solid-svg-icons": "^6.1.0",
     "eslint-config-airbnb-typescript": "^16.1.2",
-    "material": "^0.4.3",
     "rxjs": "~7.5.0",
     "sweetalert2": "^11.4.5",
     "tslib": "^2.3.0",
