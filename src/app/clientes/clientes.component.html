@@ -27,13 +27,13 @@
             <div class="photo-container">
               <img
                 *ngIf="cliente?.photo"
-                src="http://localhost:8080/api/uploads/img/{{ cliente.photo }}"
+                src="{{ urlBackend }}/api/uploads/img/{{ cliente.photo }}"
                 alt="client.name"
               />
               <img
                 *ngIf="!cliente.photo"
-                src="http://localhost:8080/images/default.jpg"
-                src="../../assets/default.jpg"
+                src="{{ urlBackend }}/images/default.jpg"
+                src="src/assets/default.jpg"
                 alt="client.name"
               />
             </div>

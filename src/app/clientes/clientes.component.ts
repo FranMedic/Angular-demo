@@ -7,6 +7,7 @@ import { ClienteService } from "./cliente.service";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 import { ModalService } from "./upload-form/modal.service";
 import { AuthService } from "../usuarios/auth.service";
+import { URL_BACKEND } from "../config/config";
 
 @Component({
   selector: "app-clientes",
@@ -19,6 +20,7 @@ export class ClientesComponent implements OnInit {
   paginador: any;
   clienteSelected: Cliente;
   faImage = faImage;
+  urlBackend: string = URL_BACKEND;
 
   constructor(
     public authService: AuthService,

@@ -15,12 +15,13 @@ import { Router } from "@angular/router";
 import { DatePipe } from "@angular/common";
 import { Region } from "./region";
 import { AuthService } from "../usuarios/auth.service";
+import { URL_BACKEND } from "../config/config";
 
 @Injectable({
   providedIn: "root",
 })
 export class ClienteService {
-  private urlEndPoint: string = "http://localhost:8080/api/clientes";
+  private urlEndPoint: string = URL_BACKEND + "/api/clientes";
 
   private httpHeaders = new HttpHeaders({
     "Content-Type": "application/json",
